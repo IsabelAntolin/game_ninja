@@ -77,10 +77,14 @@
     <div class="row mt-5">
       <h3>Activities</h3>
       <div class="col-12" id="txtArea">
-        {%if goldGanado >= 0 %}
-            <p>El puntaje obtenido : {{goldGanado}}</p>
-        {%endif%}
-          <p></p>
+        {%for frase in array %}
+          {% if frase >= 0 %}
+              <p style="color: green;">El puntaje obtenido es {{frase}}</p>
+          {% else %}  
+          <p style="color: red;">El puntaje restado es {{frase}}</p>
+          {%endif%}
+          
+        {%endfor%}
       </div>
     </div>
   </div>

@@ -33,6 +33,7 @@ app.get('/', async (req, res) => {
 })
 
 let goldGanado=0
+let arrayFrases =[]
 
 app.post('/gold/process_money', async (req, res) => {
     const opcion = req.body.opcion   
@@ -44,25 +45,44 @@ app.post('/gold/process_money', async (req, res) => {
     console.log(req.session.puntaje);
 
     if(opcion=='farm'){
-        goldGanado =Math.floor(  Math.random()*(20-10)+10)
-       
+        goldGanado =Math.floor(  Math.random()*(20-10)+10)       
         req.session.puntaje +=  goldGanado   
+
+        mensaje = goldGanado
+        arrayFrases.unshift(mensaje)
+
        console.log(goldGanado,req.session.puntaje); 
     }
     if(opcion=='cave'){
         goldGanado =Math.floor(  Math.random()*(10-5)+5)
         req.session.puntaje +=  goldGanado  
+
+        mensaje = goldGanado
+        arrayFrases.unshift(mensaje)
+
         console.log(goldGanado,req.session.puntaje); 
     }
     if(opcion=='house'){
         goldGanado =Math.floor(  Math.random()*(5-2)+2)
         req.session.puntaje +=  goldGanado  
+
+        mensaje = goldGanado
+        arrayFrases.unshift(mensaje)
+
         console.log(goldGanado,req.session.puntaje); 
         
     }
     if(opcion=='casino')    {
         goldGanado =Math.floor(  Math.random()*(50-(-50))+(-50))
-        req.session.puntaje +=  goldGanado  
+        req.session.puntaje +=  goldGanado 
+         if(goldGanado < 0){
+            mensaje= goldGanado
+         }else{
+            mensaje = goldGanado
+         }
+        
+        arrayFrases.unshift(mensaje)
+
         console.log(goldGanado,req.session.puntaje); 
     }
     
@@ -70,7 +90,7 @@ app.post('/gold/process_money', async (req, res) => {
 })
 
 app.get('/gold',async(req,res)=>{
-    res.render('index.html',{puntaje: req.session.puntaje, goldGanado:goldGanado})
+    res.render('index.html',{puntaje: req.session.puntaje, goldGanado:goldGanado ,array:arrayFrases})
 })
 
 //Ruta por default.
