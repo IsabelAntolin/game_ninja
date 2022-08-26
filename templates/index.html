@@ -1,31 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% from 'macrosNavBar.html' import navbar %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Libros</title>
-  <link rel="stylesheet" href="/css/bootstrap.min.css" />
-</head>
-<style>
-  #txtArea {
-    border: 1px solid black;
-    min-height: 100px;
-  }
-</style>
-
-<body>
+{% block main %}
+  {{navbar('/',user)}}
   <div class="container mt-5">
     <div class="row ">
       <div class="col-12">
         <label for="">Your Gold</label>
         <input type="number" class="ms-4 ps-2" placeholder="0" value="{{puntaje}}" disabled>
+        <a href="/reset" class="btn btn-success ms-2">Reset</a>
       </div>
     </div>
-
     <div class="row mt-4">
       <div class="col-3 border">
+        <div class="cont_img text-center">
+          <img src="farm.png">
+        </div>
         <form action="/gold/process_money" method="post">
           <input type="hidden" name="opcion" value="farm">
           <h2 class="text-center mt-5">Farm</h2>
@@ -38,18 +28,23 @@
       </div>
 
       <div class="col-3 border">
+        <div class="cont_img">
+          <img src="cueva.png">
+        </div>
         <form action="/gold/process_money" method="post">
           <input type="hidden" name="opcion" value="cave">
           <h2 class="text-center mt-5">Cave</h2>
           <p class="text-center">earns 5-10 golds</p>
           <div class="text-center mb-5">
-
             <button type="submit" class="btn btn-info">Find Gold!</button>
           </div>
         </form>
       </div>
 
       <div class="col-3 border">
+        <div class="cont_img">
+          <img src="casa.png">
+        </div>
         <form action="/gold/process_money" method="post">
           <input type="hidden" name="opcion" value="house">
           <h2 class="text-center mt-5">House</h2>
@@ -61,6 +56,9 @@
         </form>
       </div>
       <div class="col-3 border">
+        <div class="cont_img">
+          <img src="casino.png">
+        </div>
         <form action="/gold/process_money" method="post">
           <input type="hidden" name="opcion" value="casino">
           <h2 class="text-center mt-5">Casino</h2>
@@ -71,21 +69,25 @@
           </div>
         </form>
       </div>
-
     </div>
-
     <div class="row mt-5">
       <h3>Activities</h3>
-      <div class="col-12" id="txtArea">
-        {%for frase in array %}
-          {% if frase >= 0 %}
-              <p style="color: green;">El puntaje obtenido es {{frase}}</p>
-          {% else %}  
-          <p style="color: red;">El puntaje restado es {{frase}}</p>
-          {%endif%}
-          
-        {%endfor%}
+      <div class="col-12 overflow-auto" style="height: 100px;" data-spy="scroll">
+        <div class=" overflow-auto fs-6 lh-1"  data-spy="scroll"  data-offset="0" >
+          {%for actividad in actividades %}
+            {% if actividad.puntaje >= 0 %}
+                <p style="color: green;">El puntaje obtenido es {{actividad.puntaje}} en {{actividad.lugar}}  </p>
+            {% elif actividad.puntaje == undefined %}
+            <p></p>
+            {% else %}  
+                <p style="color: red;">El puntaje restado es {{actividad.puntaje}} en {{actividad.lugar}}</p>
+            {%endif%}
+          {%endfor%}
+        </div>
       </div>
     </div>
   </div>
-</body>
+{% endblock %}
+
+
+
